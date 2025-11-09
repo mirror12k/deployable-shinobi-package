@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+  shinobi-sql:
+    image: mysql:5.7
+    container_name: shinobi-sql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ccio
+      MYSQL_USER: majesticflame
+      MYSQL_PASSWORD: 1234
+    volumes:
+      - shinobi_mysql_data:/var/lib/mysql
+      - /shinobi/mysql-init:/docker-entrypoint-initdb.d
+    logging:
+      options:
+        max-size: "1G"
+        max-file: "4"
+
+  shinobi:
+    image: registry.gitlab.com/shinobi-systems/shinobi:dev
+    container_name: shinobi
+    restart: unless-stopped
+    depends_on:
+      - shinobi-sql
+    ports:
+      - "8080:8080"
+    environment:
+      HOME: /home/Shinobi
+      DB_HOST: shinobi-sql
+      DB_USER: majesticflame
+      DB_PASSWORD: 1234
+      DB_DATABASE: ccio
+      SHINOBI_UPDATE: "false"
+    volumes:
+      - /dev/shm/ShinobiRAM:/dev/shm/streams
+      - /shinobi/shinobi_data:/home/Shinobi
+    logging:
+      options:
+        max-size: "1G"
+        max-file: "4"
+
+volumes:
+  shinobi_mysql_data:
