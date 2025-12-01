@@ -35,7 +35,7 @@ services:
       SHINOBI_UPDATE: "false"
     volumes:
       - /dev/shm/ShinobiRAM:/dev/shm/streams
-      - /shinobi/shinobi_data:/home/Shinobi
+      # - /shinobi/shinobi_data:/home/Shinobi
     logging:
       options:
         max-size: "1G"
