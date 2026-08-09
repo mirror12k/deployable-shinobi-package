@@ -29,6 +29,6 @@ cp /app/docker-compose.yml "$SHINOBI_ROOT/docker-compose.yml"
 cd "$SHINOBI_ROOT"
 
 echo "[i] pulling images"
-docker-compose pull
+docker compose pull
 echo "[i] starting shinobi docker..."
-docker-compose up
+docker compose up
